@@ -1,0 +1,29 @@
+cd /etc/ansible
+ls
+ansible.cfg hosts roles
+vi hosts
+
+[amaster]
+
+192.168.150.1
+
+[dev]
+192.168.150.2
+
+[qa]
+192.168.150.3
+
+[prod]
+192.168.150.4
+
+ansible all -m ping #fails
+
+#on the amaster server
+ssh-keygen -t rsa
+cd ~/.ssh/
+chmod 700 ~/.ssh
+scp /etc/ansible/hosts 192.168.150.2.~/
+
+#on 192.168.150.2
+mv id_rsa.pub/.ssh/authorized_keys
+chmod 600~/.ssh/authorized_keys
