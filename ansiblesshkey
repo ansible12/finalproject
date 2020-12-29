@@ -23,7 +23,16 @@ ssh-keygen -t rsa
 cd ~/.ssh/
 chmod 700 ~/.ssh
 scp /etc/ansible/hosts 192.168.150.2.~/
+#or
+ssh-copy-id 192.168.150.2
+ssh-copy-id 192.168.150.3
+ssh-copy-id 192.168.150.4
 
 #on 192.168.150.2
 mv id_rsa.pub/.ssh/authorized_keys
 chmod 600~/.ssh/authorized_keys
+
+#from amaster
+ansible all -m ping # successful
+
+#now from the master we can reach all the nodes
