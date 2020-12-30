@@ -1,0 +1,34 @@
+#Chrome WebDriver for Selenium
+
+
+- name: Check if xvfb is installed
+  command: dpkg -s 
+  register: xvfb_check_deb
+  failed_when: xvfb_check_deb.rc > 1
+  changed_when: xvfb_check_deb == 1
+  tags:
+    - xvfb
+
+- name: Install xvfb package
+  apt: name=xvfb state=present
+  sudo: true
+  when: xvfb_check_deb.rc == 1
+  tags:
+    - xvfb
+
+- name: Install xvfb init.d daemon script
+  action: template src=xvfb-init.d-template dest=/etc/init.d/xvfb mode=0755
+  tags:
+    - xvfb
+
+- name: Set xvfb to run on startup
+  shell: update-rc.d xvfb defaults
+  sudo: true
+  when: xvfb_check_deb.rc == 1
+  tags:
+    - xvfb
+
+- name: Start xvfb service
+  action: service name=xvfb state=started
+  tags:
+    - xvfb
