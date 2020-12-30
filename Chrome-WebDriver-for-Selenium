@@ -4,8 +4,8 @@
 - name: Check if xvfb is installed
   command: dpkg -s 
   register: xvfb_check_deb
-  failed_when: xvfb_check_deb.rc > 1
-  changed_when: xvfb_check_deb == 1
+  failed_when: xvfb_check_deb.rc > 1  #error handling
+  changed_when: xvfb_check_deb == 1 #error handling
   tags:
     - xvfb
 
